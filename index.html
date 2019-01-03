@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>217846 217862</title>
+</head>
+
+<body>
+    <header>
+        <h2>Authors of the document:</h2>
+        <p>Łukasz Starosta 217862</p>
+        <p>Piotr Karczewski 217846</p>
+    </header>
+    <main>
+        <h1>Theoretical part</h1>
+        <h2>Ports</h2>
+        <p>
+            In computer networking, a port is an endpoint of communication. Physical as well as wireless connections
+            are terminated at ports of hardware devices. At the software level, within an operating system, a port is a
+            logical construct that identifies a specific process or a type of network service.
+        </p>
+        <p>The software port is always associated with an IP address of a host and the protocol type of the
+            communication. It completes the destination or origination network address of a message. Ports are
+            identified for each protocol and address combination by 16-bit unsigned numbers, commonly known as the port
+            number.</p>
+        <p>Ports provide a multiplexing service for multiple services or multiple communication sessions at one network
+            address. Specific port numbers are commonly reserved to identify specific services. The lowest numbered
+            1024 port numbers are called the well-known port numbers, and identify the historically most commonly used
+            services. In the client–server model of application architecture, a multiplexing service is established, so
+            that multiple simultaneous communication sessions may be initiated for the same service. The most commonly
+            used protocols that use ports are the Transmission Control Protocol (TCP) and the User Datagram Protocol
+            (UDP).</p>
+        <p>The well-known ports (also known as system ports) are those from 0 through 1023. The requirements for new
+            assignments in this range are stricter than for other registrations, for example:</p>
+        <ul>
+            <li>20: File Transfer Protocol (FTP) Data Transfer</li>
+            <li>21: File Transfer Protocol (FTP) Command Control</li>
+            <li>22: Secure Shell (SSH) Secure Login</li>
+            <li>23: Telnet remote login service, unencrypted text messages</li>
+            <li>25: Simple Mail Transfer Protocol (SMTP) E-mail routing</li>
+            <li>53: Domain Name System (DNS) service</li>
+            <li>80: Hypertext Transfer Protocol (HTTP) used in the World Wide Web</li>
+            <li>110: Post Office Protocol (POP3)</li>
+            <li>119: Network News Transfer Protocol (NNTP)</li>
+            <li>123: Network Time Protocol (NTP)</li>
+            <li>143: Internet Message Access Protocol (IMAP) Management of digital mail</li>
+            <li>161: Simple Network Management Protocol (SNMP)</li>
+            <li>194: Internet Relay Chat (IRC)</li>
+            <li>443: HTTP Secure (HTTPS) HTTP over TLS/SSL</li>
+        </ul>
+        <p>
+            The registered ports are those from 1024 through 49151.
+            IANA maintains the official list of well-known and registered ranges. The dynamic or private ports are
+            those from 49152 through 65535.
+        </p>
+        <h2>TCP Protocol</h2>
+        <p>
+            The Transmission Control Protocol (TCP) is one of the main protocols of the Internet protocol
+            suite.
+            TCP provides reliable, ordered, and error-checked delivery of a stream of octets (bytes) between
+            applications running on hosts communicating via an IP network.
+            Major internet applications such as the World Wide Web, email, remote administration, and file
+            transfer rely on TCP.
+        </p>
+        <p>
+            TCP labels its packets such that they are numbered. It also makes sure they have a deadline to
+            reach the destination (which is a duration of several hundred milliseconds called time-out) and
+            some other technical provisions.
+            For each packet received, the sending device is notified through a packet called acknowledgment.
+            The name says it all. If after the time-out, no acknowledgment is received, the source sends
+            another copy of the probably missing or delayed packet.
+            Out-of-order packets are also not acknowledged.
+            This way, all packets are always assembled in order, without holes and within a predetermined and
+            acceptable delay.
+        </p>
+        <p>
+            While IP has a complete mechanism for addressing known as IP addresses, TCP has no such elaborate
+            addressing system.
+            It does not need one. It only uses numbers provided by the device it is working on to identify
+            where it is receiving and sending packets for which service.
+            These numbers are called ports. For example, web browsers use the port 80 for TCP. Port 25 is used
+            or email.
+            The port number is often coupled with the IP address for a service, e.g. 192.168.66.5:80
+        </p>
+        <h3>TCP Parameters</h3>
+        <p>Transmission Control Protocol accepts data from a data stream, divides it into chunks, and adds a TCP header
+            creating a TCP segment. The TCP segment is then encapsulated into an Internet Protocol (IP) datagram, and
+            exchanged with peers. The term TCP packet appears in both informal and formal usage, whereas in more
+            precise terminology segment refers to the TCP protocol data unit (PDU). A TCP segment consists of a segment
+            header and a data section. The TCP header contains 10 mandatory fields, and an optional extension field.
+            The data section follows the header. Its contents are the payload data carried for the application. The
+            length of the data section is not specified in the TCP segment header. It can be calculated by subtracting
+            the combined length of the TCP header and the encapsulating IP header from the total IP datagram length
+            (specified in the IP header).
+        </p>
+        <img src="images/tcp_release.png" alt="" />
+        <ol>
+            <li>
+                <b>Source port (16 bits)</b>
+                <p>
+                    Identifies the sending port.
+                </p>
+            </li>
+            <li>
+                <b>Destination port (16 bits)</b>
+                <p>
+                    Identifies the receiving port.
+                </p>
+            </li>
+
+            <li>
+                <b>Sequence number (32 bits)</b>
+
+                <p>
+                    Has a dual role:
+                </p>
+                <ul>
+                    <li>If the SYN flag is set (1), then this is the initial sequence number. The sequence number of
+                        the actual first data byte and the acknowledged number in the corresponding ACK are then this
+                        sequence number plus 1.</li>
+                    <li>If the SYN flag is clear (0), then this is the accumulated sequence number of the first data
+                        byte of this segment for the current session.</li>
+                </ul>
+                <p></p>
+            </li>
+
+            <li>
+                <b>Acknowledgment number (32 bits)</b>
+
+                <p>
+                    If the ACK flag is set then the value of this field is the next sequence number that the sender of
+                    the ACK is expecting. This acknowledges receipt of all prior bytes (if any). The first ACK sent by
+                    each end acknowledges the other end's initial sequence number itself, but no data.
+                </p>
+            </li>
+
+            <li>
+                <b>Data offset (4 bits)</b>
+                <p>
+                    Specifies the size of the TCP header in 32-bit words. The minimum size header is 5 words and the
+                    maximum is 15 words thus giving the minimum size of 20 bytes and maximum of 60 bytes, allowing for
+                    up to 40 bytes of options in the header. This field gets its name from the fact that it is also the
+                    offset from the start of the TCP segment to the actual data.
+                </p>
+            </li>
+
+            <li>
+                <b>Reserved (3 bits)</b>
+                <p>
+                    For future use and should be set to zero.
+                </p>
+            </li>
+
+            <li>
+                <b>Flags (9 bits) (aka Control bits)</b>
+                <p>
+                    Contains 9 1-bit flags
+                </p>
+                <ul>
+                    <li>NS (1 bit): ECN-nonce - concealment protection.</li>
+                    <li>CWR (1 bit): Congestion Window Reduced (CWR) flag is set by the sending host to indicate that
+                        it received a TCP segment with the ECE flag set and had responded in congestion control
+                        mechanism (added to header by RFC 3168).</li>
+                    <li>ECE (1 bit): ECN-Echo has a dual role, depending on the value of the SYN flag. It indicates:
+                        <ul>
+                            <li>If the SYN flag is set (1), that the TCP peer is ECN capable.</li>
+                            <li>If the SYN flag is clear (0), that a packet with Congestion Experienced flag set
+                                (ECN=11) in the IP header was received during normal transmission (added to header by
+                                RFC 3168). This serves as an indication of network congestion (or impending congestion)
+                                to the TCP sender.</li>
+                        </ul>
+                    </li>
+                    <li>URG (1 bit): indicates that the Urgent pointer field is significant</li>
+                    <li>ACK (1 bit): indicates that the Acknowledgment field is significant. All packets after the
+                        initial SYN packet sent by the client should have this flag set.</li>
+                    <li>PSH (1 bit): Push function. Asks to push the buffered data to the receiving application.</li>
+                    <li>RST (1 bit): Reset the connection</li>
+                    <li>SYN (1 bit): Synchronize sequence numbers. Only the first packet sent from each end should have
+                        this flag set. Some other flags and fields change meaning based on this flag, and some are only
+                        valid when it is set, and others when it is clear.</li>
+                    <li>FIN (1 bit): Last packet from sender.</li>
+                </ul>
+                <p></p>
+            </li>
+
+            <li>
+                <b>Window size (16 bits)</b>
+                <p>
+                    The size of the receive window, which specifies the number of window size units (by default, bytes)
+                    (beyond the segment identified by the sequence number in the acknowledgment field) that the sender
+                    of this segment is currently willing to receive.
+                </p>
+            </li>
+
+            <li>
+                <b>Checksum (16 bits)</b>
+                <p>
+                    The 16-bit checksum field is used for error-checking of the header, the Payload and a
+                    Pseudo-Header. The Pseudo-Header consists of the Source IP Address, the Destination IP Address, the
+                    protocol number for the TCP-Protocol (0x0006) and the length of the TCP-Headers including Payload
+                    (in Bytes).
+                </p>
+            </li>
+
+            <li>
+                <b>Urgent pointer (16 bits)</b>
+                <p>
+                    if the URG flag is set, then this 16-bit field is an offset from the sequence number indicating the
+                    last urgent data byte.
+                </p>
+            </li>
+
+            <li>
+                <b>Options (Variable 0–320 bits, divisible by 32)</b>
+                <p>
+                    The length of this field is determined by the data offset field. Options have up to three fields:
+                    Option-Kind (1 byte), Option-Length (1 byte), Option-Data (variable). The Option-Kind field
+                    indicates the type of option, and is the only field that is not optional. Depending on what kind of
+                    option we are dealing with, the next two fields may be set: the Option-Length field indicates the
+                    total length of the option, and the Option-Data field contains the value of the option, if
+                    applicable. For example, an Option-Kind byte of 0x01 indicates that this is a No-Op option used
+                    only for padding, and does not have an Option-Length or Option-Data byte following it. An
+                    Option-Kind byte of 0 is the End Of Options option, and is also only one byte. An Option-Kind byte
+                    of 0x02 indicates that this is the Maximum Segment Size option, and will be followed by a byte
+                    specifying the length of the MSS field (should be 0x04). This length is the total length of the
+                    given options field, including Option-Kind and Option-Length bytes. So while the MSS value is
+                    typically expressed in two bytes, the length of the field will be 4 bytes (+2 bytes of kind and
+                    length). In short, an MSS option field with a value of 0x05B4 will show up as (0x02 0x04 0x05B4) in
+                    the TCP options section.
+                </p>
+            </li>
+
+            <p>Some options may only be sent when <tt>SYN</tt> is set; they are indicated below as <sup><tt style="color:#000; background:#ccc;">[SYN]</tt></sup>.
+                Option-Kind and standard lengths given as (Option-Kind,Option-Length).
+            </p>
+            <ul>
+                <li>0 (8 bits): End of options list.</li>
+                <li>1 (8 bits): No operation (NOP, Padding). This may be used to align option fields on 32-bit
+                    boundaries for better performance.</li>
+                <li>2,4,<i>SS</i> (32 bits): Maximum segment size. <sup><tt style="color:#000; background:#ccc;">[SYN]</tt></sup></li>
+                <li>3,3,<i>S</i> (24 bits): Window scale.<sup><tt style="color:#000; background:#ccc;">[SYN]</tt></sup></li>
+                <li>4,2 (16 bits): Selective Acknowledgement permitted. <sup><tt style="color:#000; background:#ccc;">[SYN]</tt></sup></li>
+                <li>5,<i>N,BBBB,EEEE,...</i> (variable bits, <i>N</i> is either 10, 18, 26, or 34)- Selective
+                    ACKnowledgement (SACK). These first two bytes are followed by a list of 1–4 blocks being
+                    selectively acknowledged, specified as 32-bit begin/end pointers.</li>
+                <li>8,10,<i>TTTT,EEEE</i> (80 bits)- Timestamp and echo of previous timestamp.</li>
+            </ul>
+            <p></p>
+
+            <p>The remaining options are historical, obsolete, experimental, not yet standardized, or unassigned.
+                Option number assignments are maintained by the IANA.
+
+            </p>
+            <li>
+                <b>Padding</b>
+                <p>
+                    The TCP header padding is used to ensure that the TCP header ends, and data begins, on a 32 bit
+                    boundary. The padding is composed of zeros.
+                </p>
+            </li>
+
+        </ol>
+        <h3>TCP Connection</h3>
+        <p>
+            TCP protocol operations may be divided into three phases. Connections must be properly established
+            in a multi-step handshake process (connection establishment) before entering the data transfer
+            phase.
+            After data transmission is completed, the connection termination closes established virtual
+            circuits and releases all allocated resources.
+        </p>
+        <p>
+            A TCP connection is managed by an operating system through a programming interface that represents
+            the local end-point for communications, the Internet socket.
+            During the lifetime of a TCP connection the local end-point undergoes a series of state changes:
+        </p>
+        <ul>
+            <li>
+                <b>LISTEN</b> :
+                (server) represents waiting for a connection request from any remote TCP and
+                port.
+            </li>
+            <li><b>SYN-SENT</b> :
+                (client) represents waiting for a matching connection request after having sent a connection
+                request.</li>
+            <li><b>SYN-RECEIVED</b> :
+                (server) represents waiting for a confirming connection request acknowledgment after having
+                both received and sent a connection request.</li>
+            <li><b>ESTABLISHED</b> :
+                (both server and client) represents an open connection, data received can be delivered to the
+                user. The normal state for the data transfer phase of the connection.</li>
+            <li><b>FIN-WAIT-1</b> :
+                (both server and client) represents waiting for a connection termination request from the
+                remote TCP, or an acknowledgment of the connection termination request previously sent.</li>
+            <li><b>FIN-WAIT-2</b> :
+                (both server and client) represents waiting for a connection termination request from the
+                remote TCP.</li>
+            <li><b>CLOSE-WAIT</b> :
+                (both server and client) represents waiting for a connection termination request from the local
+                user.</li>
+            <li><b>CLOSING</b> :
+                (both server and client) represents waiting for a connection termination request acknowledgment
+                from the remote TCP.</li>
+            <li><b>LAST-ACK</b> :
+                (both server and client) represents waiting for an acknowledgment of the connection termination
+                request previously sent to the remote TCP (which includes an acknowledgment of its connection
+                termination request).</li>
+            <li><b>TIME-WAIT</b> :
+                (either server or client) represents waiting for enough time to pass to be sure the remote TCP
+                received the acknowledgment of its connection termination request. [According to RFC 793 a
+                connection can stay in TIME-WAIT for a maximum of four minutes known as two MSL (maximum
+                segment lifetime).]</li>
+            <li><b>CLOSED</b> :
+                (both server and client) represents no connection state at all.</li>
+        </ul>
+        <img src="images/tcp_connection.png" alt="" />
+        <h3>Connection establishement</h3>
+        To establish a connection, TCP uses a three-way handshake.
+        Before a client attempts to connect with a server, the server must first bind to and listen at a port
+        to open it up for connections: this is called a passive open.
+        Once the passive open is established, a client may initiate an active open.
+        <p>
+            To establish a connection, the <b>three-way</b> (or 3-step) handshake occurs:
+        </p>
+        <ol>
+            <li>SYN: The active open is performed by the client sending a SYN to the server. The client sets
+                the segment's sequence number to a random value A.</li>
+            <li>SYN-ACK: In response, the server replies with a SYN-ACK. The acknowledgment number is set to
+                one more than the received sequence number i.e. A+1, and the sequence number that the server
+                chooses for the packet is another random number, B.</li>
+            <li>ACK: Finally, the client sends an ACK back to the server. The sequence number is set to the
+                received acknowledgement value i.e. A+1, and the acknowledgement number is set to one more than
+                the received sequence number i.e. B+1.</li>
+        </ol>
+        <h3>Connection release</h3>
+        The connection termination phase uses a four-way handshake, with each side of the connection
+        terminating independently. When an endpoint wishes to stop its half of the connection, it transmits a
+        FIN packet, which the other end acknowledges with an ACK.
+        Therefore, a typical tear-down requires a pair of FIN and ACK segments from each TCP endpoint.
+        After the side that sent the first FIN has responded with the final ACK, it waits for a timeout before
+        finally closing the connection, during which time the local port is unavailable for new connections.
+        This prevents confusion due to delayed packets being delivered during subsequent connections.
+        It is also possible to terminate the connection by a 3-way handshake, when host A sends a FIN and host
+        B replies with a FIN & ACK (merely combines 2 steps into one) and host A replies with an ACK.
+        <img src="images/tcp_release.png" alt="" />
+
+        <h2>UDP Protocol</h2>
+        <p>
+            In computer networking, the User Datagram Protocol (UDP) is one of the core members of the Internet
+            protocol suite. With UDP, computer applications can send messages, in this case referred to as
+            datagrams, to other hosts on an Internet Protocol (IP) network.
+            Prior communications are not required in order to set up communication channels or data paths.
+        </p>
+        <p>
+            UDP uses a simple connectionless communication model with a minimum of protocol mechanism. UDP
+            provides checksums for data integrity, and port numbers for addressing different functions at the
+            source and destination of the datagram.
+            It has no handshaking dialogues, and thus exposes the user's program to any unreliability of the
+            underlying network. There is no guarantee of delivery, ordering, or duplicate protection.
+        </p>
+        <p>
+            UDP is suitable for purposes where error checking and correction are either not necessary or are
+            performed in the application.
+            UDP avoids the overhead of such processing in the protocol stack.
+            Time-sensitive applications often use UDP because dropping packets is preferable to waiting for
+            packets delayed due to retransmission, which may not be an option in a real-time system.
+        </p>
+        <h3>UDP Parameters</h3>
+        <p> The UDP header consists of 4 fields, each of which is 2 bytes (16 bits). The use of the checksum and source
+            port fields is optional in IPv4. In IPv6 only the source port field is optional.
+        </p>
+        <img src="images/udp_parameters.png" alt="" />
+        <ol>
+            <li><b>Source port number</b>
+                <p>This field identifies the sender's port when meaningful and should be assumed to be the port to
+                    reply to if needed. If not used, then it should be zero. If the source host is the client, the port
+                    number is likely to be an ephemeral port number. If the source host is the server, the port number
+                    is likely to be a well-known port number.</p>
+            </li>
+            <li><b>Destination port number</b>
+                <p>This field identifies the receiver's port and is required. Similar to source port number, if the
+                    client is the destination host then the port number will likely be an ephemeral port number and if
+                    the destination host is the server then the port number will likely be a well-known port number.</p>
+            </li>
+            <li><b>Length</b>
+                <p>A field that specifies the length in bytes of the UDP header and UDP data. The minimum length is 8
+                    bytes because that is the length of the header. The field size sets a theoretical limit of 65,535
+                    bytes (8 byte header + 65,527 bytes of data) for a UDP datagram. However the actual limit for the
+                    data length, which is imposed by the underlying IPv4 protocol, is 65,507 bytes (65,535 − 8 byte UDP
+                    header − 20 byte IP header).
+                    In IPv6 jumbograms it is possible to have UDP packets of size greater than 65,535 bytes. RFC 2675
+                    specifies that the length field is set to zero if the length of the UDP header plus UDP data is
+                    greater than 65,535.</p>
+            </li>
+            <li><b>Checksum</b>
+                <p>The checksum field may be used for error-checking of the header and data. This field is optional in
+                    IPv4, and mandatory in IPv6. The field carries all-zeros if unused.
+                </p>
+            </li>
+        </ol>
+        <h1>Practical part</h1>
+    </main>
+</body>
+<style>
+    body {
+        background: #fafafa;
+        color: #363636;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        margin: 0 10%;
+    }
+
+    h1 {
+        text-align: left;
+        margin-left: -5%;
+    }
+
+    header,
+    h2 {
+        text-align: center;
+        margin: 30px 0;
+    }
+
+    h4 {
+        display: inline;
+    }
+
+    li {
+        margin: 15px;
+    }
+
+    img {
+        display: block;
+        width: 90%;
+        margin: 15px auto;
+    }
+
+    table {
+        background: #fcfcfc;
+        margin: 20px auto;
+        border: 1px solid #333333;
+        text-align: center;
+        border-collapse: collapse;
+        border-spacing: 0px;
+    }
+
+    tr>* {
+        padding: 5px;
+        border: 1px solid #5a5a5a;
+    }
+
+    thead {
+        background: #a5a5a5;
+        font-weight: bold;
+    }
+</style>
+
+</html>
